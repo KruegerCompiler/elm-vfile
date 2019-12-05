@@ -1,6 +1,6 @@
 {
-  "name": "cli",
-  "version": "1.0.0",
+  "name": "vfile-viewer",
+  "version": "0.1.0",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -8,13 +8,18 @@
   "license": "MIT",
   "dependencies": {
     "@babel/code-frame": "^7.5.5",
+    "elm-vfile": "^0.1.0",
+    "fastify": "^2.10.0",
+    "fastify-static": "^2.5.1",
     "globby": "^10.0.1",
+    "make-promises-safe": "^5.1.0",
     "print-diff": "^1.0.0",
     "to-vfile": "^6.0.0",
     "uuid": "^3.3.3",
     "vfile": "^4.0.2"
   },
   "devDependencies": {
+    "elm-live": "^4.0.1",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.27.8",

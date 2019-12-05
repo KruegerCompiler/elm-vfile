@@ -1,0 +1,30 @@
+{
+  "name": "elm-vfile",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Elm implementation of vfile",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krueger-compiler/elm-vfile.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krueger-compiler/elm-vfile/issues"
+  },
+  "homepage": "https://github.com/krueger-compiler/elm-vfile#readme",
+  "devDependencies": {
+    "elm-format": "^0.8.2",
+    "elm-test": "^0.19.1-revision2",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0"
+  },
+  "scripts": {
+    "clean": "rimraf dist/",
+    "build": "npx elm make src/VFile.elm --output=dist/elm.js",
+    "test": "elm-test",
+    "examples:vfile-usage": "node vfile-usage.js"
+  }
+}

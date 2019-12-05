@@ -1,5 +1,7 @@
-port module Main exposing (..)
+module Main exposing (main)
 
+import Browser
+import Dict exposing (Dict)
 import Json.Decode as JD exposing (Value)
 import Json.Encode as JE
 import Request
@@ -7,26 +9,22 @@ import VFile exposing (VFile)
 
 
 type alias Flags =
-    {}
+    ()
 
 
 type alias Model =
-    {}
+    { files : Dict String VFile
+    , toProcess : List VFile
+    }
 
 
 type Msg
-    = Echo Value
-
-
-port echo : (Value -> msg) -> Sub msg
-
-
-port echoResponse : Value -> Cmd msg
+    = Process VFile
 
 
 main : Program Flags Model Msg
 main =
-    Platform.worker
+    Browser.sandbox
         { init = init
         , update = update
         , subscriptions = subscriptions

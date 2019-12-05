@@ -1,27 +1,22 @@
 {
   "name": "elm-vfile",
-  "version": "1.0.0",
-  "description": "Elm implementation of vfile",
+  "version": "0.1.0",
+  "private": true,
+  "description": "",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/krueger-compiler/elm-vfile.git"
-  },
   "keywords": [],
-  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/krueger-compiler/elm-vfile/issues"
-  },
-  "homepage": "https://github.com/krueger-compiler/elm-vfile#readme",
   "devDependencies": {
+    "lerna": "^3.19.0",
     "prettier": "^1.19.1",
-    "to-vfile": "^6.0.0",
-    "vfile": "^4.0.2"
+    "rimraf": "^3.0.0",
+    "rollup": "^1.27.8",
+    "rollup-plugin-elm": "^2.0.1"
   },
   "scripts": {
-    "build": "",
-    "test": "elm-test",
-    "examples:vfile-usage": "node ./examples/vfile-usage.js"
+    "postinstall": "lerna bootstrap --hoist",
+    "clean": "lerna run clean --stream",
+    "build": "lerna run build --stream",
+    "test": "lerna run test --stream"
   }
 }
