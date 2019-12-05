@@ -1,76 +1,25 @@
 module Main exposing (main)
 
 import Browser
-import Dict exposing (Dict)
-import Json.Decode as JD exposing (Value)
-import Json.Encode as JE
-import Request
-import VFile exposing (VFile)
+import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
 
-
-type alias Flags =
-    ()
-
-
-type alias Model =
-    { files : Dict String VFile
-    , toProcess : List VFile
-    }
-
-
-type Msg
-    = Process VFile
-
-
-main : Program Flags Model Msg
 main =
-    Browser.sandbox
-        { init = init
-        , update = update
-        , subscriptions = subscriptions
-        }
+  Browser.sandbox { init = 0, update = update, view = view }
 
+type Msg = Increment | Decrement
 
-init : Flags -> ( Model, Cmd Msg )
-init flags =
-    ( flags, Cmd.none )
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        Echo value ->
-            let
-                decoded =
-                    JD.decodeValue VFile.decoder value
+  case msg of
+    Increment ->
+      model + 1
 
-                vfileEncoder =
-                    \vfile ->
-                        [ JE.null, VFile.encode vfile ]
-                            |> JE.list identity
+    Decrement ->
+      model - 1
 
-                errorEncoder =
-                    \err ->
-                        [ JD.errorToString err |> JE.string, JE.null ]
-                            |> JE.list identity
-
-                response =
-                    encodeResult errorEncoder vfileEncoder decoded
-            in
-            ( model, echoResponse response )
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.batch
-        [ echo Echo ]
-
-
-encodeResult : (e -> Value) -> (a -> Value) -> Result e a -> Value
-encodeResult onError onOk res =
-    case res of
-        Ok value ->
-            onOk value
-
-        Err err ->
-            onError err
+view model =
+  div []
+    [ button [ onClick Decrement ] [ text "-" ]
+    , div [] [ text (String.fromInt model) ]
+    , button [ onClick Increment ] [ text "+" ]
+    ]

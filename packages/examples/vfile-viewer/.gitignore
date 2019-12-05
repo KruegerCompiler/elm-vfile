@@ -1,0 +1,4 @@
+/wwwroot/*
+!/wwwroot/assets
+!/wwwroot/css
+!/wwwroot/javascript

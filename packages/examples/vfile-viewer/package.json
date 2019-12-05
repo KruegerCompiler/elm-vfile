@@ -28,7 +28,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "rollup -c",
+    "build": "npm run build:elm & npm run build:server",
+    "build:server": "rollup -c",
+    "build:elm": "npx elm make src/Main.elm --output=wwwroot/index.html",
     "prestart": "npm run build",
     "start": "node dist/app.js"
   }

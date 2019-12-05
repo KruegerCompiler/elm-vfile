@@ -6,7 +6,7 @@ import fastifyStatic from "fastify-static";
 const fastify = Fastify({ logger: true });
 
 fastify.register(fastifyStatic, {
-  root: resolvePath(__dirname, "../data"),
+  root: resolvePath(__dirname, "../wwwroot"),
   prefix: "/"
 });
 
