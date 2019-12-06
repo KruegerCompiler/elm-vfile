@@ -1,25 +1,104 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
+import Html exposing (Html, pre, text)
+import Http
+import Json.Decode exposing (Value, decodeValue)
+import VFile exposing (VFile)
 
+
+
+-- MAIN
+
+
+main : Program () Model Msg
 main =
-  Browser.sandbox { init = 0, update = update, view = view }
+    Browser.element
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        , view = view
+        }
 
-type Msg = Increment | Decrement
 
+
+-- MODEL
+
+
+type Model
+    = Failure String
+    | Loading
+    | ShowingStringContent String
+    | ShowingVFileContent VFile
+
+
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( Loading
+    , Http.get
+        { url = "vfile/hello.md/contents"
+        , expect = Http.expectJson GotVFile VFile.decoder
+        }
+    )
+
+
+
+-- UPDATE
+
+
+type Msg
+    = GotText (Result Http.Error String)
+    | GotVFile (Result Http.Error VFile)
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  case msg of
-    Increment ->
-      model + 1
+    case msg of
+        GotText result ->
+            case result of
+                Ok fullText ->
+                    ( ShowingStringContent fullText, Cmd.none )
 
-    Decrement ->
-      model - 1
+                Err _ ->
+                    ( Failure "I was unable to load the text.", Cmd.none )
 
+        GotVFile result ->
+            case result of
+                Ok vfile ->
+                    ( ShowingVFileContent vfile, Cmd.none )
+
+                Err err ->
+                    ( Failure (err |> Debug.toString), Cmd.none )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+
+-- VIEW
+
+
+view : Model -> Html Msg
 view model =
-  div []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (String.fromInt model) ]
-    , button [ onClick Increment ] [ text "+" ]
-    ]
+    case model of
+        Failure message ->
+            text message
+
+        Loading ->
+            text "Loading..."
+
+        ShowingStringContent fullText ->
+            pre [] [ text fullText ]
+
+        ShowingVFileContent vfile ->
+            let
+                cwd =
+                    VFile.cwd vfile
+            in
+            pre [] [ text cwd ]

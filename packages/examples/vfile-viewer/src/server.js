@@ -10,16 +10,24 @@ fastify.register(fastifyStatic, {
   prefix: "/"
 });
 
-fastify.get("/data/:filename", async (request, reply) => {
-  const path = resolvePath(__dirname, "../data", request.params.filename);
+fastify.get("/vfile/:filename", async (request, reply) => {
+  const path = resolvePath(
+    __dirname,
+    "../wwwroot/assets",
+    request.params.filename
+  );
   const file = await toVFile(path);
-  return { path: path, file: file };
+  return file;
 });
 
-fastify.get("/data/:filename/contents", async (request, reply) => {
-  const path = resolvePath(__dirname, "../data", request.params.filename);
+fastify.get("/vfile/:filename/contents", async (request, reply) => {
+  const path = resolvePath(
+    __dirname,
+    "../wwwroot/assets",
+    request.params.filename
+  );
   const file = await toVFile.read(path);
-  return { path: path, file: file };
+  return file;
 });
 
 const start = async () => {
